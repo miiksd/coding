@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import UserInfo from "./components/UserInfo"
 import './App.css';
 
 
@@ -11,23 +12,20 @@ function App() {
   const searchUsers = () => {
     axios.get("https://api.github.com/search/users?q=michael")
     .then((res) => {
-      setData(res.data)
-      console.log(res)
+      setData(res.data.items)
     })
     .catch(console.log)
   }
 
   useEffect(() => {
     searchUsers()
-    .then((usersData) => {
-      console.log(usersData)
-    })
-    .catch(console.log)
-  })
+  }, []);
 
   return (
     <div className="App">
-      <h1>Hello</h1>
+      {data.map((data) => {
+        return <UserInfo data={data} key={data.id} />
+      })}
     </div>
   );
 }
